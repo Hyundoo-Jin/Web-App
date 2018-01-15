@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    검색 기록
+{% endblock %}
+
+{% block content %}
+    <table id="historytable" class="display" cellspacing="0" width="70%">
+        <thead>
+          <tr>
+            <th>Keyword</th>
+            <th>User</th>
+            <th>Time</th>
+            <th>First</th>
+            <th>Second</th>
+            <th>Third</th>
+            <th>Fourth</th>
+            <th>Fifth</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for history in histories %}
+                <tr>
+                    <td>{{ history.search_keyword }}</td>
+                    <td>{{ history.search_user }}</td>
+                    <td>{{ history.search_time }}</td>
+                    <td>{{ history.search_first }}</td>
+                    <td>{{ history.search_second }}</td>
+                    <td>{{ history.search_third }}</td>
+                    <td>{{ history.search_fourth }}</td>
+                    <td>{{ history.search_fifth }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+{% endblock %}
+<script>
+$("historytable").dataTable({
+             bJQueryUI: true,
+             sPaginationType: "full_numbers"
+});
+</script>
+<table id="historytable" class="table table-striped" >
+
+{% comment %}https://www.codeproject.com/Tips/823490/Bootstrap-Table-With-Sorting-Searching-and-Paging{% endcomment %}
