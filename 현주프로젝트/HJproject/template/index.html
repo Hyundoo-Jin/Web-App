@@ -1,33 +1,27 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block title %}
     최저가 검색 서비스
 {% endblock %}
 
 {% block content %}
-    <header>
-        <div class="Main">
-            최저가 찾기
-            <img id="thumb" src='{% static 'img/thumbs.png' %}'>
+        <div class="Main col-xs-offset-1 col-xs-10 col-xs-offset-1" style="text-align: center; border-bottom: 3px solid cadetblue;">
+            <span style="font-size: 4vw; font-family: 나눔고딕;">
+                최저가 찾기
+            </span>
+            <img id="thumb" style="max-width: 8%; height: auto; margin-bottom: 2vw" src='{% static 'img/thumbs.png' %}'>
         </div>
-        <div class = "Link" id="teamlab" align="center">
-            <a href="http://theteamlab.io/" ><img src="{% static 'img/teamlab.png' %}" height="50" ></a>
-        </div>
-    </header>
     <section>
-        <div class="search">
-            <form id='searchform' class="form-control" method="post" action="{% url 'search' %}">
+        <div class="search col-md-offset-1 col-md-10 col-md-offset-1 col-sm-offset-1 col-sm-10 col-sm-offset-1">
+            <center><a href="http://theteamlab.io/" ><img src="{% static 'img/teamlab.png' %}" style="max-width: 12%; height: auto;"></a></center>
+            <form id='searchform' method="post" action="{% url 'search_process' %}" align="middle">
                 {% csrf_token %}
-                <input type="text" id="searchbar" name="keyword" />
+                <input class="" type="text" id="searchbar" name="keyword" placeholder="검색어를 입력하세요" style="width: 15vw"/>
                 <button id="btn" type="submit">
-                <a href="{% url 'search' %}"><img src="{% static 'icon/searchpng.png' %}" alt="검색버튼" width="25" height="25"></a>
+                <a href="{% url 'search_process' %}"><img src="{% static 'icon/searchpng.png' %}" alt="검색버튼" width="25" height="25" style="width: 1vw; height: auto"></a>
                 </button>
             </form>
-        </div>
-        <div class="admin">
-            <a href=""><p>관리자 로그인</p></a>
         </div>
     </section>
 {% endblock %}

@@ -6,5 +6,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', sc_views.index, name='index'),
     url(r'^history$', sc_views.take_history, name='history'),
-    url(r'^search/$', sc_views.search, name='search'),
+    url(r'^result$', sc_views.search_process, name='search_process'),
+    url(r'^check_login$', sc_views.check_login, name='check_login'),
+    url(r'^registration$', sc_views.registration, name='registration'),
+    url(r'^registration_process$', sc_views.registration_process, name='registration_process'),
 ]
