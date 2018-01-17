@@ -5,13 +5,13 @@ from django.contrib.auth.models import User
 class history(models.Model) :
     search_id = models.AutoField(primary_key=True)
     search_keyword = models.CharField(max_length=255)
-    search_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    search_user = models.CharField(max_length=255, default='Anonymous')
     search_time = models.DateTimeField(auto_now_add=True)
-    search_first = models.CharField(max_length=50)
-    search_second = models.CharField(max_length=50, default=None)
-    search_third = models.CharField(max_length=50, default=None)
-    search_fourth = models.CharField(max_length=50, default=None)
-    search_fifth = models.CharField(max_length=50, default=None)
+    search_imagelist = models.CharField(max_length=255, default='Error')
+    search_namelist = models.CharField(max_length=255, default='Error')
+    search_pricelist = models.CharField(max_length=255, default='Error')
+    search_shoplist = models.CharField(max_length=255, default='Error')
+    search_linklist = models.CharField(max_length=255, default='Error')
 
 class userhint(models.Model) :
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)

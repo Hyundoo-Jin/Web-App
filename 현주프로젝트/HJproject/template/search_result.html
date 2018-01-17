@@ -60,6 +60,21 @@
 {% endblock %}
 
 {% block content %}
+    <section>
+        <div class="search col-md-offset-1 col-md-10 col-md-offset-1 col-sm-offset-1 col-sm-10 col-sm-offset-1">
+            <form id='searchform' method="post" action="{% url 'search_process' %}" align="middle">
+                {% csrf_token %}
+                <input class="" type="text" id="searchbar" name="keyword" placeholder="검색어를 입력하세요" style="width: 15vw"/>
+                <button id="btn" type="submit">
+                <a href="{% url 'search_process' %}"><img src="{% static 'icon/searchpng.png' %}" alt="검색버튼" width="25" height="25" style="width: 1vw; height: auto"></a>
+                </button>
+            </form>
+        </div>
+    </section>
+    {% if result == 'Error' %}
+        <center><img class="img-responsive" src="{% static 'img/Error.jpg' %}" alt=""></center>
+        <h1 style="text-align: center; font-size: 2vw">검색 결과가 없습니다. 다른 검색어로 검색하세요!</h1>
+    {% else %}
     <div class="container">
         <div class="table-wrapper">
             <table class="table table-striped">
@@ -84,4 +99,5 @@
             </table>
         </div>
     </div>
+    {% endif %}
 {% endblock %}

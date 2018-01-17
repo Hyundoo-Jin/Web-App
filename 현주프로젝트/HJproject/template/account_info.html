@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block optional_javascript %}
+    <script>
+    $(document).ready(function() {
+        $("#user_info").submit(function (e) {
+            if ($('#first_name').val().length == 0) {
+                alert("Please check your First Name");
+                e.preventDefault()
+                return;
+            };
+            if ($('#last_name').val().length == 0) {
+                alert("Please check your Last Name");
+                e.preventDefault();
+                return;
+            };
+            if ($('#password').val() != $('#password_confirm').val()) {
+                alert("Please check your password");
+                e.preventDefault();
+                return;
+            };
+            if ($('#email').val().length == 0) {
+                alert("Please check your email");
+                e.preventDefault();
+                return;
+            };
+            if ($('#user_hint').val().length == 0) {
+                alert("Please check Your Favorite Singer");
+                e.preventDefault();
+                return;
+            };
+        });
+    });
+    </script>
+{% endblock %}
+
+{% block title %}
+    내 정보
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Edit Profile</h1>
+  	<hr>
+	<div class="row">
+      <!-- edit form column -->
+      <div class="col-md-9 personal-info">
+          {% if status %}
+        <div class="alert alert-danger alert-dismissable">
+          <a class="panel-close close" data-dismiss="alert">×</a>
+          <i class="fa fa-coffee"></i>
+          This is an <strong>.alert</strong>. Use this to show important messages to the user.
+        </div>
+          {% endif %}
+        <h3>User info</h3>
+
+        <form id="user_info" class="form-horizontal" role="form" method="post">
+            {% csrf_token %}
+          <div class="form-group">
+            <label class="col-md-3 control-label">ID:</label>
+            <div class="col-md-8">
+              {{ login_id }}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">First name:</label>
+            <div class="col-lg-8">
+              <input id="first_name" name="first_name" class="form-control" type="text" value="{{ first_name }}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Last name:</label>
+            <div class="col-lg-8">
+              <input id="last_name" name="last_name" class="form-control" type="text" value="{{ last_name }}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Email:</label>
+            <div class="col-lg-8">
+              <input id="email" name="email" class="form-control" type="text" value="{{ email }}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Password:</label>
+            <div class="col-md-8">
+              <input id="password" name='password' class="form-control" type="password" placeholder="****">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Confirm password:</label>
+            <div class="col-md-8">
+              <input id="password_confirm" name="password_confirm" class="form-control" type="password" placeholder="****">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Password Hint:</label>
+            <div class="col-md-8">
+              <input id="user_hint" name="user_hint" class="form-control" type="text" value="{{ user_hint }}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+                <button type="submit" class="btn btn-primary" >Confrim</button>
+                <a href="{% url 'index' %}" role="button" class="btn btn-danger" >Cancel</a>
+            </div>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>
+<hr>
+{% endblock %}

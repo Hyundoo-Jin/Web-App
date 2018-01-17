@@ -21,16 +21,16 @@
           </tr>
         </thead>
         <tbody>
-            {% for history in histories %}
+            {% for item in result %}
                 <tr>
-                    <td>{{ history.search_keyword }}</td>
-                    <td>{{ history.search_user }}</td>
-                    <td>{{ history.search_time }}</td>
-                    <td>{{ history.search_first }}</td>
-                    <td>{{ history.search_second }}</td>
-                    <td>{{ history.search_third }}</td>
-                    <td>{{ history.search_fourth }}</td>
-                    <td>{{ history.search_fifth }}</td>
+                    <td>{{ item.keyword }}</td>
+                    <td>{{ item.user }}</td>
+                    <td>{{ item.time }}</td>
+                    <td><a href="{{ item.first_link }}">{{ item.first_name }}</td></a>
+                    <td><a href="{{ item.second_link }}">{{ item.second_name }}</td></a>
+                    <td><a href="{{ item.third_link }}">{{ item.third_name }}</td></a>
+                    <td><a href="{{ item.fourth_link }}">{{ item.fourth_name }}</td></a>
+                    <td><a href="{{ item.fifth_link }}">{{ item.fifth_name }}</td></a>
                 </tr>
             {% endfor %}
         </tbody>

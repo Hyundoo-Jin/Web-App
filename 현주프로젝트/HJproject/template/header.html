@@ -9,14 +9,27 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'history' %}">검색기록</a>
           </li>
+        {% if not login_id %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'registration' %}">회원가입</a>
           </li>
-            {% if superuser %}
+        {% endif %}
+        {% if superuser %}
               <li class="nav-item">
                 <a class="nav-link" href="">로그인</a>
               </li>
-            {% endif %}
+        {% endif %}
+
+        {% if login_id %}
+          <li class="nav-item">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ login_id }} <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{% url "account_info" %}">Account Info</a></li>
+                    <li><a href="{% url "logout" %}">Logout</a></li>
+                </ul>
+          </li>
+        </ul>
+        {% else %}
         </ul>
         <p>
             <form class="form-inline my-2 my-lg-0" role="form" action="{% url 'check_login' %}" method="post">
@@ -30,6 +43,7 @@
                 <button type="submit my-2 my-sm-0" class="btn" >Login</button>
             </form>
         </p>
+        {% endif %}
         {% if status %}
             <div class="alert alert-danger col-sm-offset-5 col-sm-2" align="center">
                 <strong>{{ status }}</strong>
