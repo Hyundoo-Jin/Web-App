@@ -6,8 +6,35 @@
     검색 기록
 {% endblock %}
 
+{% block optional_javascript %}
+<script>
+$(document).ready(function(){
+    $('#historytable').dataTable();
+});
+$("historytable").dataTable({
+    sPaginationType: "full_numbers"
+});
+
+var myTable = $('#historytable').DataTable();
+
+$('#historytable').on( 'click', 'tbody tr', function () {
+    myTable.row( this ).delete();
+} );
+
+</script>
+{% endblock %}
+
+{% block optional_css %}
+    <style>
+    #historytable_wrapper {
+        width: 90%;
+        margin: auto;
+    }
+    </style>
+{% endblock %}
+
 {% block content %}
-    <table id="historytable" class="display" cellspacing="0" width="70%">
+    <table id="historytable" class="display">
         <thead>
           <tr>
             <th>Keyword</th>
@@ -18,6 +45,7 @@
             <th>Third</th>
             <th>Fourth</th>
             <th>Fifth</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -26,21 +54,18 @@
                     <td>{{ item.keyword }}</td>
                     <td>{{ item.user }}</td>
                     <td>{{ item.time }}</td>
-                    <td><a href="{{ item.first_link }}">{{ item.first_name }}</td></a>
-                    <td><a href="{{ item.second_link }}">{{ item.second_name }}</td></a>
-                    <td><a href="{{ item.third_link }}">{{ item.third_name }}</td></a>
-                    <td><a href="{{ item.fourth_link }}">{{ item.fourth_name }}</td></a>
-                    <td><a href="{{ item.fifth_link }}">{{ item.fifth_name }}</td></a>
+                    {% for link, name in item.list %}
+                        {% if name == 'Error' %}
+                        <td>{{ name }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        {% else %}
+                        <td><a href="{{ link }}">{{ name }}</a></td>
+                        {% endif %}
+                    {% endfor %}
                 </tr>
             {% endfor %}
         </tbody>
 {% endblock %}
-<script>
-$("historytable").dataTable({
-             bJQueryUI: true,
-             sPaginationType: "full_numbers"
-});
-</script>
-<table id="historytable" class="table table-striped" >
-
-{% comment %}https://www.codeproject.com/Tips/823490/Bootstrap-Table-With-Sorting-Searching-and-Paging{% endcomment %}

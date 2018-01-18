@@ -87,6 +87,7 @@
                     </tr>
                 </thead>
                 {% for good in result %}
+                    {% if good.link != 'None' %}
                     <tbody>
                         <tr>
                             <td><a href="{{ good.link }}"><img src="{{ good.img }}" alt=""></a></td>
@@ -95,6 +96,7 @@
                             <td><a href="{{ good.link }}">{{ good.shop }}</a></td>
                         </tr>
                     </tbody>
+                    {% endif %}
                 {% endfor %}
             </table>
         </div>

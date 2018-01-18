@@ -9,7 +9,7 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'history' %}">검색기록</a>
           </li>
-        {% if not login_id %}
+        {% if login_id  == 'Anonymous'%}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'registration' %}">회원가입</a>
           </li>
@@ -20,7 +20,7 @@
               </li>
         {% endif %}
 
-        {% if login_id %}
+        {% if login_id != 'Anonymous' %}
           <li class="nav-item">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ login_id }} <b class="caret"></b></a>
                 <ul class="dropdown-menu">
