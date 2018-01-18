@@ -13,6 +13,9 @@ class history(models.Model) :
     search_shoplist = models.CharField(max_length=255, default='Error')
     search_linklist = models.CharField(max_length=255, default='Error')
 
+    def __str__(self):
+        return str(self.search_user) + '-' + str(self.search_keyword)
+
 class userhint(models.Model) :
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
     user_hint = models.CharField(max_length=100)
