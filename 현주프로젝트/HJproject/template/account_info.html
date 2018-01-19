@@ -55,7 +55,7 @@
           {% endif %}
         <h3>User info</h3>
 
-        <form id="user_info" class="form-horizontal" role="form" method="post">
+        <form id="user_info" class="form-horizontal" action="{% url 'change_info' %}" role="form" method="post">
             {% csrf_token %}
           <div class="form-group">
             <label class="col-md-3 control-label">ID:</label>
@@ -84,13 +84,13 @@
           <div class="form-group">
             <label class="col-md-3 control-label">Password:</label>
             <div class="col-md-8">
-              <input id="password" name='password' class="form-control" type="password" placeholder="****">
+              <input id="password" name='password' class="form-control" type="password" placeholder="Password">
             </div>
           </div>
           <div class="form-group">
             <label class="col-md-3 control-label">Confirm password:</label>
             <div class="col-md-8">
-              <input id="password_confirm" name="password_confirm" class="form-control" type="password" placeholder="****">
+              <input id="password_confirm" name="password_confirm" class="form-control" type="password" placeholder="Password">
             </div>
           </div>
           <div class="form-group">

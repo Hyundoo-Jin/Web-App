@@ -19,3 +19,8 @@ class history(models.Model) :
 class userhint(models.Model) :
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
     user_hint = models.CharField(max_length=100)
+
+class shops(models.Model) :
+    date = models.DateField(auto_now_add=True)
+    first_shop = models.TextField(max_length=255, default='없음')
+    count = models.IntegerField(max_length=255, default=1)

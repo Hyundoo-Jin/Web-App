@@ -5,7 +5,8 @@ from bs4 import BeautifulSoup
 from django.contrib.auth.models import User
 from search.models import userhint
 from django.shortcuts import redirect
-
+from search.models import shops
+import datetime
 # Create your views here.
 def index(request) :
     try :
@@ -61,17 +62,17 @@ def search_result(request, keyword) :
                 shoplist.append(good.find('a', {'class': 'mall_img'}).find('img').attrs['alt'])
             linklist.append(good.find('div', {'class': 'info'}).find('a').attrs['href'])
         result = [{'img' : imglist[i], 'name' : namelist[i], 'price' : pricelist[i], 'shop' : shoplist[i], 'link' : linklist[i]} for i in range(5)]
-        if request.session['login_id'] :
-            searchlog = history.objects.create(search_keyword=keyword, search_user=login_id,
-                                               search_imagelist=', '.join(imglist), search_namelist=', '.join(namelist),
-                                               search_pricelist=', '.join(pricelist), search_shoplist=', '.join(shoplist),
-                                               search_linklist=', '.join(linklist))
-        else :
-            searchlog = history.objects.create(search_keyword=keyword, search_user='Anonymous',
-                                               search_imagelist=', '.join(imglist), search_namelist=', '.join(namelist),
-                                               search_pricelist=', '.join(pricelist), search_shoplist=', '.join(shoplist),
-                                               search_linklist=', '.join(linklist))
+        searchlog = history.objects.create(search_keyword=keyword, search_user=login_id,
+                                           search_imagelist=', '.join(imglist), search_namelist=', '.join(namelist),
+                                           search_pricelist=', '.join(pricelist), search_shoplist=', '.join(shoplist),
+                                           search_linklist=', '.join(linklist))
         searchlog.save()
+        if shops.objects.filter(date=datetime.date.today(), first_shop=shoplist[0]) :
+            count = shops.objects.get(date=datetime.date.today(), first_shop=shoplist[0]).count + 1
+            shops.objects.filter(date=datetime.date.today(), first_shop=shoplist[0]).update(count = count)
+        else :
+            log = shops.objects.create(first_shop=shoplist[0])
+            log.save()
     except:
         result = 'Error'
         searchlog = history.objects.create(search_keyword=keyword, search_user=login_id)
@@ -90,10 +91,10 @@ def check_login(request) :
                 return render(request, 'index.html', {'login_id' : id})
             else :
                 status = 'Password가 틀렸습니다.'
-                return render(request, 'index.html', {'status' : status})
+                return render(request, 'index.html', {'status' : status, 'login_id': 'Anonymous'})
         except User.DoesNotExist :
             status = '존재하지 않는 ID입니다.'
-            return render(request, 'index.html', {'status' : status})
+            return render(request, 'index.html', {'status' : status, 'login_id': 'Anonymous'})
 
 def registration_process(request) :
     if request.method == 'POST':
@@ -101,7 +102,7 @@ def registration_process(request) :
         try:
             User.objects.get(username=id)
             status = "이미 존재하는 아이디입니다"
-            return render(request, 'index.html', {"status": status})
+            return render(request, 'index.html', {"status": status, 'login_id' : 'Anonymous'})
         except User.DoesNotExist:
             first_name = request.POST["first_name"]
             last_name = request.POST["last_name"]
@@ -139,3 +140,22 @@ def account_info(request) :
 def logout(request) :
     request.session['login_id'] = 'Anonymous'
     return render(request, 'index.html', {'login_id' : 'Anonymous'})
+
+def change_info(request) :
+    login_id=request.session['login_id']
+    if request.POST['password'] :
+        User.objects.filter(username=login_id).update(first_name=request.POST['first_name'],
+                                                         last_name=request.POST['last_name'],
+                                                         email=request.POST['email'])
+        u = User.objects.get(username=login_id)
+        u.set_password(request.POST['password'])
+        u.save()
+        userhint.objects.filter(user_id=User.objects.get(username=login_id)).update(user_hint=request.POST['user_hint'])
+        request.session['login_id'] = 'Anonymous'
+        return render(request, 'index.html', {'login_id': 'Anonymous'})
+    else :
+        User.objects.filter(username=login_id).update(first_name=request.POST['first_name'],
+                                                      last_name=request.POST['last_name'],
+                                                      email=request.POST['email'])
+        userhint.objects.filter(user_id=User.objects.get(username=login_id)).update(user_hint=request.POST['user_hint'])
+        return render(request, 'index.html', {'login_id': login_id})

@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^registration_process$', sc_views.registration_process, name='registration_process'),
     url(r'^account_info$', sc_views.account_info, name='account_info'),
     url(r'^logout$', sc_views.logout, name='logout'),
+    url(r'^change_info$', sc_views.change_info, name='change_info'),
 ]
