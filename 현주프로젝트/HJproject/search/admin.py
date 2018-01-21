@@ -4,12 +4,17 @@ from django.contrib import admin
 
 from .models import history
 from search.models import shops
+from rangefilter.filter import DateRangeFilter, DateTimeRangeFilter
+
+
+
 
 class historyadmin(admin.ModelAdmin) :
     list_display = ['search_user', 'search_keyword', 'first', 'second', 'third', 'fourth', 'fifth', 'search_time']
     list_display_links = ['search_user', 'search_keyword', 'search_time']
-    list_filter = ['search_user', 'search_time']
+    list_filter = ['search_user', ('search_time', DateTimeRangeFilter)]
     list_per_page = 10
+
 
     def first(self, history):
         try :
@@ -41,7 +46,8 @@ admin.site.register(history, historyadmin)
 
 class shophistory(admin.ModelAdmin) :
     list_display = ['date', 'first_shop']
-    list_filter = ['date', 'first_shop']
+    list_filter = [('date', DateRangeFilter), 'first_shop']
     list_per_page = 10
 
 admin.site.register(shops, shophistory)
+
